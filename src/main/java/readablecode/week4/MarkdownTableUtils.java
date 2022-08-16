@@ -64,11 +64,11 @@ public class MarkdownTableUtils {
     private static String createEmptyRows(List<String> headerRowCaptions, int emptyRowCount) {
         String emptyRows = "";
         for (int i = 0; i < emptyRowCount; i++) {
-            List<String> list = new ArrayList<String>();
-            for (String e : headerRowCaptions) {
-                list.add(Strings.repeat(" ", e.length()));
+            List<String> headerWordList = new ArrayList<String>();
+            for (String headerWord : headerRowCaptions) {
+                headerWordList.add(Strings.repeat(" ", headerWord.length()));
             }
-            emptyRows = emptyRows + createRow(list);
+            emptyRows = emptyRows + createRow(headerWordList);
         }
         return emptyRows;
     }
@@ -78,11 +78,11 @@ public class MarkdownTableUtils {
     }
 
     private static String createSeparatorRow(List<String> headerRowCaptions) {
-        List<String> list = new ArrayList<String>();
-        for (String e : headerRowCaptions) {
-            list.add(Strings.repeat("-", e.length()));
+        List<String> headerWordList = new ArrayList<String>();
+        for (String headerWord : headerRowCaptions) {
+            headerWordList.add(Strings.repeat("-", headerWord.length()));
         }
-        return createRow(list);
+        return createRow(headerWordList);
     }
 
     private static String createRow(List<String> captions) {
