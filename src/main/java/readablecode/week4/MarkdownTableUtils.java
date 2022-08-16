@@ -73,9 +73,9 @@ public class MarkdownTableUtils {
     private static String createLines(List<String> headerRowCaptions, int emptyRowCount, String object) {
         StringBuilder markdownTable = new StringBuilder();
         for (int i = 0; i < emptyRowCount; i++) {
-            for (String e : headerRowCaptions) {
+            for (String headerWord : headerRowCaptions) {
                 markdownTable.append("|");
-                markdownTable.append(Strings.repeat(object, e.length()));
+                markdownTable.append(Strings.repeat(object, headerWord.length()));
             }
             markdownTable.append("|");
             markdownTable.append(System.lineSeparator());
