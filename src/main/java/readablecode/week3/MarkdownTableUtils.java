@@ -47,6 +47,12 @@ public class MarkdownTableUtils {
 
     }
 
+    /**
+     * ヘッダー行に縦の仕切り線を記入する
+     * 
+     * @param headerRowCaptions
+     * @return ヘッダー行の縦の仕切り線を追加したString
+     */
     private static String createVerticalLinesForHeaderSeparator(List<String> headerRowCaptions) {
         StringBuilder markdownTable = new StringBuilder();
         for (String headerWord : headerRowCaptions) {
@@ -58,6 +64,12 @@ public class MarkdownTableUtils {
         return markdownTable.toString();
     }
 
+    /**
+     * ヘッダー行とその他の行を仕切る横線を記入する
+     * 
+     * @param headerRowCaptions
+     * @return ヘッダーの文字列分の横線（縦の仕切り線を含む）
+     */
     private static String createHorizontalLineForHeaderSeparator(List<String> headerRowCaptions) {
         StringBuilder markdownTable = new StringBuilder();
         for (String headerWord : headerRowCaptions) {
@@ -69,6 +81,13 @@ public class MarkdownTableUtils {
         return markdownTable.toString();
     }
 
+    /**
+     * 空白行を記入する
+     * 
+     * @param headerRowCaptions
+     * @param emptyRowCount
+     * @return 指定された行数（emptyRowCount）分の空白行（縦の仕切り線を含む）
+     */
     private static String createVerticalLinesForEmptyRows(List<String> headerRowCaptions, int emptyRowCount) {
         StringBuilder markdownTable = new StringBuilder();
         for (int i = 0; i < emptyRowCount; i++) {
