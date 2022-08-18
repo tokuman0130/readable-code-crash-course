@@ -58,16 +58,16 @@ public class MarkdownTableUtils {
             throw new IllegalArgumentException("emptyRowCount must be greater than or equal to 1");
         }
 
-        String headerRow = createRow(headerRowCaptions, null);
-        String separatorRow = createRow(headerRowCaptions, HORIZONTALLINE);
-        String emptyRows = Strings.repeat(createRow(headerRowCaptions, SPACE), emptyRowCount);
+        String headerRow = createRow(headerRowCaptions, null, true);
+        String separatorRow = createRow(headerRowCaptions, HORIZONTALLINE, false);
+        String emptyRows = Strings.repeat(createRow(headerRowCaptions, SPACE, false), emptyRowCount);
 
         return headerRow + separatorRow + emptyRows;
     }
 
-    private static String createRow(List<String> headerRowCaptions, String repeatedChar) {
+    private static String createRow(List<String> headerRowCaptions, String repeatedChar, boolean writesCaptions) {
         StringBuilder markdownRow = new StringBuilder();
-        if (repeatedChar == null) {
+        if (writesCaptions) {
             for (String headerWord : headerRowCaptions) {
                 markdownRow.append(VERTICALLINE);
                 markdownRow.append(headerWord);
