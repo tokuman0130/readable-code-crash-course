@@ -45,6 +45,10 @@ public class MarkdownTableUtils {
      * @throws IllegalArgumentException
      *             if emptyRowCount is less than 1
      */
+    private static final String VERTICALLINE = "|";
+    private static final String HORIZONTALLINE = "-";
+    private static final String SPACE = " ";
+
     public static String createEmptyTable(List<String> headerRowCaptions, int emptyRowCount) {
         Objects.requireNonNull(headerRowCaptions, "headerCaptions must not be null");
         if (headerRowCaptions.isEmpty()) {
@@ -54,48 +58,33 @@ public class MarkdownTableUtils {
             throw new IllegalArgumentException("emptyRowCount must be greater than or equal to 1");
         }
 
-        String headerRow = createEmptyRows(headerRowCaptions, null, null);
-        String separatorRow = createEmptyRows(headerRowCaptions, null, "-");
-        String emptyRows = createEmptyRows(headerRowCaptions, emptyRowCount, " ");
+        String headerRow = createRow(headerRowCaptions, null);
+        String separatorRow = createRow(headerRowCaptions, HORIZONTALLINE);
+        String emptyRows = Strings.repeat(createRow(headerRowCaptions, SPACE), emptyRowCount);
 
         return headerRow + separatorRow + emptyRows;
-
     }
 
-    private static String createEmptyRows(List<String> headerRowCaptions, Integer emptyRowCount, String object) {
-        StringBuilder markdownTable = new StringBuilder();
-        if (object == null) {
+    private static String createRow(List<String> headerRowCaptions, String repeatedChar) {
+        StringBuilder markdownRow = new StringBuilder();
+        if (repeatedChar == null) {
             for (String headerWord : headerRowCaptions) {
-                markdownTable.append("|");
-                markdownTable.append(headerWord);
+                markdownRow.append(VERTICALLINE);
+                markdownRow.append(headerWord);
             }
-            markdownTable.append("|");
-            markdownTable.append(System.lineSeparator());
-            return markdownTable.toString();
-        }
-
-        if (object == "-") {
+            markdownRow.append(VERTICALLINE);
+            markdownRow.append(System.lineSeparator());
+            return markdownRow.toString();
+        } else {
             for (String headerWord : headerRowCaptions) {
-                markdownTable.append("|");
-                markdownTable.append(Strings.repeat("-", headerWord.length()));
+                markdownRow.append(VERTICALLINE);
+                markdownRow.append(Strings.repeat(repeatedChar, headerWord.length()));
             }
-            markdownTable.append("|");
-            markdownTable.append(System.lineSeparator());
+            markdownRow.append(VERTICALLINE);
+            markdownRow.append(System.lineSeparator());
 
-            return markdownTable.toString();
+            return markdownRow.toString();
         }
-        if (object == " ") {
-            for (Integer i = 0; i < emptyRowCount; i++) {
-                for (String headerWord : headerRowCaptions) {
-                    markdownTable.append("|");
-                    markdownTable.append(Strings.repeat(" ", headerWord.length()));
-                }
-                markdownTable.append("|");
-                markdownTable.append(System.lineSeparator());
-            }
-            return markdownTable.toString();
-        }
-        return null;
     }
 
 }
