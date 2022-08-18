@@ -45,6 +45,10 @@ public class MarkdownTableUtils {
      * @throws IllegalArgumentException
      *             if emptyRowCount is less than 1
      */
+    private static final String VERTICALLINE = "|";
+    private static final String HORIZONTALLINE = "-";
+    private static final String SPACE = " ";
+
     public static String createEmptyTable(List<String> headerRowCaptions, int emptyRowCount) {
         Objects.requireNonNull(headerRowCaptions, "headerCaptions must not be null");
         if (headerRowCaptions.isEmpty()) {
@@ -55,38 +59,39 @@ public class MarkdownTableUtils {
         }
 
         String headerRow = createHeaderRow(headerRowCaptions);
-        String separatorRow = createSeparatorRow(headerRowCaptions);
-        String emptyRows = createEmptyRows(headerRowCaptions, emptyRowCount);
+        String separatorRow = createSeparatorRow(headerRowCaptions, HORIZONTALLINE);
+        String emptyRows = createEmptyRows(headerRowCaptions, emptyRowCount, SPACE);
 
         return headerRow + separatorRow + emptyRows;
     }
 
-    private static String createEmptyRows(List<String> headerRowCaptions, int emptyRowCount) {
-        String emptyRows = "";
+    private static String createEmptyRows(List<String> headerRowCaptions, int emptyRowCount, String repeatedChar) {
+        StringBuilder emptyRows = new StringBuilder();
         for (int i = 0; i < emptyRowCount; i++) {
-            List<String> headerWordList = new ArrayList<String>();
-            for (String headerWord : headerRowCaptions) {
-                headerWordList.add(Strings.repeat(" ", headerWord.length()));
-            }
-            emptyRows = emptyRows + createRow(headerWordList);
+            List<String> headerWordList = createheaderWordList(headerRowCaptions, repeatedChar);
+            emptyRows.append(createRow(headerWordList));
         }
-        return emptyRows;
+        return emptyRows.toString();
     }
 
     private static String createHeaderRow(List<String> headerRowCaptions) {
         return createRow(headerRowCaptions);
     }
 
-    private static String createSeparatorRow(List<String> headerRowCaptions) {
-        List<String> headerWordList = new ArrayList<String>();
-        for (String headerWord : headerRowCaptions) {
-            headerWordList.add(Strings.repeat("-", headerWord.length()));
-        }
+    private static String createSeparatorRow(List<String> headerRowCaptions, String repeatedChar) {
+        List<String> headerWordList = createheaderWordList(headerRowCaptions, repeatedChar);
         return createRow(headerWordList);
     }
 
-    private static String createRow(List<String> captions) {
-        return "|" + String.join("|", captions) + "|" + System.lineSeparator();
+    private static List<String> createheaderWordList(List<String> headerRowCaptions, String repeatedChar) {
+        List<String> headerWordList = new ArrayList<String>();
+        for (String headerWord : headerRowCaptions) {
+            headerWordList.add(Strings.repeat(repeatedChar, headerWord.length()));
+        }
+        return headerWordList;
     }
 
+    private static String createRow(List<String> captions) {
+        return VERTICALLINE + String.join(VERTICALLINE, captions) + VERTICALLINE + System.lineSeparator();
+    }
 }
