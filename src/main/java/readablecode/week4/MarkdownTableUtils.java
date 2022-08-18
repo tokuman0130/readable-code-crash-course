@@ -42,7 +42,6 @@ public class MarkdownTableUtils {
      * @throws IllegalArgumentException
      *             if emptyRowCount is less than 1
      */
-    // class全体で使いたい定数はメインメソッドの外？
     private static final String VERTICALLINE = "|";
     private static final String HORIZONTALLINE = "-";
     private static final String SPACE = " ";
@@ -58,34 +57,31 @@ public class MarkdownTableUtils {
 
         String headerRow = createHeaderRow(headerRowCaptions);
         String separatorRow = createRow(headerRowCaptions, HORIZONTALLINE);
-        String emptyRows = for(int i=0; i<emptyRowCount;i++) {
-            createRow(headerRowCaptions, SPACE);
-        }
-        }
+        String emptyRows = Strings.repeat(createRow(headerRowCaptions, SPACE), emptyRowCount);
 
-    return headerRow+separatorRow+emptyRows;
+        return headerRow + separatorRow + emptyRows;
 
     }
 
     private static String createHeaderRow(List<String> headerRowCaptions) {
-        StringBuilder markdownTable = new StringBuilder();
+        StringBuilder markdownHeader = new StringBuilder();
         for (String headerWord : headerRowCaptions) {
-            markdownTable.append(VERTICALLINE);
-            markdownTable.append(headerWord);
+            markdownHeader.append(VERTICALLINE);
+            markdownHeader.append(headerWord);
         }
-        markdownTable.append(VERTICALLINE);
-        markdownTable.append(System.lineSeparator());
-        return markdownTable.toString();
+        markdownHeader.append(VERTICALLINE);
+        markdownHeader.append(System.lineSeparator());
+        return markdownHeader.toString();
     }
 
     private static String createRow(List<String> headerRowCaptions, String repeatedChar) {
-        StringBuilder markdownTable = new StringBuilder();
+        StringBuilder markdownRow = new StringBuilder();
         for (String headerWord : headerRowCaptions) {
-            markdownTable.append(VERTICALLINE);
-            markdownTable.append(Strings.repeat(repeatedChar, headerWord.length()));
+            markdownRow.append(VERTICALLINE);
+            markdownRow.append(Strings.repeat(repeatedChar, headerWord.length()));
         }
-        markdownTable.append(VERTICALLINE);
-        markdownTable.append(System.lineSeparator());
-        return markdownTable.toString();
+        markdownRow.append(VERTICALLINE);
+        markdownRow.append(System.lineSeparator());
+        return markdownRow.toString();
     }
 }
