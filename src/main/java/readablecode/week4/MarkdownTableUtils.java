@@ -42,6 +42,11 @@ public class MarkdownTableUtils {
      * @throws IllegalArgumentException
      *             if emptyRowCount is less than 1
      */
+    // class全体で使いたい定数はメインメソッドの外？
+    private static final String VERTICALLINE = "|";
+    private static final String HORIZONTALLINE = "-";
+    private static final String SPACE = " ";
+
     public static String createEmptyTable(List<String> headerRowCaptions, int emptyRowCount) {
         Objects.requireNonNull(headerRowCaptions, "headerCaptions must not be null");
         if (headerRowCaptions.isEmpty()) {
@@ -52,34 +57,35 @@ public class MarkdownTableUtils {
         }
 
         String headerRow = createHeaderRow(headerRowCaptions);
-        String separatorRow = createLines(headerRowCaptions, 1, "-");
-        String emptyRows = createLines(headerRowCaptions, emptyRowCount, " ");
+        String separatorRow = createRow(headerRowCaptions, HORIZONTALLINE);
+        String emptyRows = for(int i=0; i<emptyRowCount;i++) {
+            createRow(headerRowCaptions, SPACE);
+        }
+        }
 
-        return headerRow + separatorRow + emptyRows;
+    return headerRow+separatorRow+emptyRows;
 
     }
 
     private static String createHeaderRow(List<String> headerRowCaptions) {
         StringBuilder markdownTable = new StringBuilder();
-        for (String e : headerRowCaptions) {
-            markdownTable.append("|");
-            markdownTable.append(e);
+        for (String headerWord : headerRowCaptions) {
+            markdownTable.append(VERTICALLINE);
+            markdownTable.append(headerWord);
         }
-        markdownTable.append("|");
+        markdownTable.append(VERTICALLINE);
         markdownTable.append(System.lineSeparator());
         return markdownTable.toString();
     }
 
-    private static String createLines(List<String> headerRowCaptions, int emptyRowCount, String object) {
+    private static String createRow(List<String> headerRowCaptions, String repeatedChar) {
         StringBuilder markdownTable = new StringBuilder();
-        for (int i = 0; i < emptyRowCount; i++) {
-            for (String headerWord : headerRowCaptions) {
-                markdownTable.append("|");
-                markdownTable.append(Strings.repeat(object, headerWord.length()));
-            }
-            markdownTable.append("|");
-            markdownTable.append(System.lineSeparator());
+        for (String headerWord : headerRowCaptions) {
+            markdownTable.append(VERTICALLINE);
+            markdownTable.append(Strings.repeat(repeatedChar, headerWord.length()));
         }
+        markdownTable.append(VERTICALLINE);
+        markdownTable.append(System.lineSeparator());
         return markdownTable.toString();
     }
 }
